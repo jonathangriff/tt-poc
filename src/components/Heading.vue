@@ -2,10 +2,13 @@
   <div class="heading">
     <h1>{{ msg }}</h1>
     <p>
-      POC using Travel Time API. <br>
-      Geocoding (Search) <br>
-      Distance Martix API
+      POC using Travel Time API.
     </p>
+      <ul>
+        <li>Geocoding (Search)</li>
+        <li>Distance Martix API</li>
+        <li>Isochrones (Time Map)</li>
+      </ul>
   </div>
 </template>
 
@@ -18,18 +21,22 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.heading {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto 2rem;
 }
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 li {
-  display: inline-block;
-  margin: 0 10px;
+  list-style: none;
+}
+h3 {
+  margin: 40px 0 0;
 }
 a {
   color: #42b983;
