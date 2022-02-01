@@ -1,34 +1,33 @@
 <template>
   <div id="app">
-    <Heading msg="Travel Time POC"/>
+    <Heading msg="Travel Time POC" />
     <div v-if="!isLoading">
-      <SearchInput 
-        :handle-location-select="handleLocationSelect"
-      />
+      <SearchInput :handle-location-select="handleLocationSelect" />
       <div v-if="Object.values(selectedLocation).length">
-        <h3>Lat: {{ selectedLocation.geometry.coordinates[0] }} Lng: {{ selectedLocation.geometry.coordinates[1]  }}</h3>
-        <Search 
+        <h3>
+          Lat: {{ selectedLocation.geometry.coordinates[0] }} Lng:
+          {{ selectedLocation.geometry.coordinates[1] }}
+        </h3>
+        <Search
           :all-search-results="allSearchResults"
           :selection-location="selectedLocation"
         />
       </div>
     </div>
-    <div v-if="isLoading">
-      Fetching developments ...
-    </div>
+    <div v-if="isLoading">Fetching developments ...</div>
   </div>
 </template>
 
 <script>
-import Heading from './components/Heading.vue'
-import SearchInput from './components/SearchInput.vue';
-import Search from './components/Search.vue';
+import Heading from "./components/Heading.vue";
+import SearchInput from "./components/SearchInput.vue";
+import Search from "./components/Search.vue";
 
-import getDevelopments from './components/util/get-developments';
-import splitGeoIntoLatLng from './components/util/split-geo-lat-lng';
+import getDevelopments from "./components/util/get-developments";
+import splitGeoIntoLatLng from "./components/util/split-geo-lat-lng";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Heading,
     SearchInput,
@@ -37,44 +36,46 @@ export default {
 
   data() {
     return {
-      selectedLocation: '',
+      selectedLocation: "",
       allSearchResults: [],
       isLoading: true,
     };
   },
 
   async created() {
-        const developmentsResponseData = await getDevelopments(`${window.location.origin}/search.json`);
-        const { error } = developmentsResponseData;
+    const developmentsResponseData = await getDevelopments(
+      `${window.location.origin}/search.json`
+    );
+    const { error } = developmentsResponseData;
 
-        if (error) {
-            console.error('Search results data unavailable', error);
+    if (error) {
+      // eslint-disable-next-line
+      console.error("Search results data unavailable", error);
 
-            return;
-        }
+      return;
+    }
 
-        const results = developmentsResponseData.searchData.results
-            .filter(item => item.geo)
-            .map((item) => {
-                const coords = splitGeoIntoLatLng(item.geo);
+    const results = developmentsResponseData.searchData.results
+      .filter((item) => item.geo)
+      .map((item) => {
+        const coords = splitGeoIntoLatLng(item.geo);
 
-                return {
-                    ...item,
-                    coords
-                };
-            });
+        return {
+          ...item,
+          coords,
+        };
+      });
 
-     
-        this.allSearchResults = results;
-        this.isLoading = false;
+    this.allSearchResults = results;
+    this.isLoading = false;
   },
 
   methods: {
     handleLocationSelect(value) {
       this.selectedLocation = value;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>

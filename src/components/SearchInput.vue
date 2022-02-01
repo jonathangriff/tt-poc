@@ -4,7 +4,7 @@
     <div class="autocomplete" v-if="autocomplete.length">
         <ul>
             <li
-                v-for="(result, index) in autocomplete" 
+                v-for="(result, index) in autocomplete"
                 :key="index"
                 @click="handleSelection(result)"
             >
@@ -57,9 +57,9 @@ export default {
         .then(response => response.json())
         .then(data => {
             this.autocomplete = data.features;
-            console.log('Success:', data);
         })
         .catch((error) => {
+             // eslint-disable-next-line
             console.error('Error:', error);
         });
       },
